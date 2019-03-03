@@ -1,0 +1,13 @@
+package com.foshimmy.web;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class TripleTApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(TripleTApplication.class, args);
+	}
+
+}
