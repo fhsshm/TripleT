@@ -2,15 +2,25 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Tic Tac Toe</title>
 <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
-	<h1>Tic Tac Toe</h1>
+	<div class='game-board'>
+		<div class='box'></div>
+		<div class='box'></div>
+		<div class='box'></div>
+		<div class='box'></div>
+		<div class='box'></div>
+		<div class='box'></div>
+		<div class='box'></div>
+		<div class='box'></div>
+		<div class='box'></div>
+	</div>
 </body>
 
 </html>
