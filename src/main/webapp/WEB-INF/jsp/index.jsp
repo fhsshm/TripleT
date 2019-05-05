@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>Tic Tac Toe</title>
 <link rel="stylesheet" href="css/style.css" />
+<script type="text/javascript" src="js/game.js"></script>
 </head>
 
 <body>
@@ -20,6 +21,15 @@
 		<div class='box'></div>
 		<div class='box'></div>
 		<div class='box'></div>
+		<div class='modal' id='modal'>
+			<div class='modal-content'>
+				<div class='modal-text'>
+					<p>Choose your piece</p>
+				</div>
+				<button id='selectX'>X</button>
+				<button id='selectO'>O</button>
+			</div>
+		</div>
 	</div>
 </body>
 
