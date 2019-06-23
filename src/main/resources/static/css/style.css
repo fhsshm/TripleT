@@ -12,6 +12,7 @@ p {
 	margin: 5px;
 	font-size: 2em;
 }
+
 @media(max-width: 600px) {
 	p{
 		font-size: 1.5em;	
@@ -66,18 +67,34 @@ button {
 	background-color: transparent;
 	outline: none;
 	border-style: solid;
-	font-size: 300%;
-	font-size: 10vmin;
 	font-family: 'PT Mono', sans;
 }
+
+button.piece-button {
+	font-size: 300%;
+	font-size: 10vmin;	
+}
+
+button.text-button {
+	font-size: 5vmin;
+	max-width: 30%;
+}
+
 button:hover {
 	box-shadow: 0 0 3px rgba(0,0,0,0.3);
 }
+
 #selectX {
 	color: #c0ded9;
 	border-color: #c0ded9;
 }
+
 #selectO {
 	color: #3b3a30;
 	border-color: #3b3a30;
+}
+
+.tile-image {
+	max-height: 80%;
+	max-width: 80%;
 }
