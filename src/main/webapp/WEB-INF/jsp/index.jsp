@@ -10,36 +10,37 @@
 	<link rel="stylesheet" href="css/style.css" />
 	<script type="text/javascript" src="js/Game.js"></script>
 	<script type="text/javascript" src="js/Player.js"></script>
+	<script type="text/javascript" src="js/ComputerPlayer.js"></script>
 	<script type="text/javascript" src="js/Board.js"></script>
 </head>
 
 <body>
 	<div class="game-board">
-		<div class="box" position="0">
+		<div class="box" data-position="0">
 			<img class="tile-image">
 		</div>
-		<div class="box" position="1">
+		<div class="box" data-position="1">
 			<img class="tile-image">
 		</div>
-		<div class="box" position="2">
+		<div class="box" data-position="2">
 			<img class="tile-image">
 		</div>
-		<div class="box" position="3">
+		<div class="box" data-position="3">
 			<img class="tile-image">
 		</div>
-		<div class="box" position="4">
+		<div class="box" data-position="4">
 			<img class="tile-image">
 		</div>
-		<div class="box" position="5">
+		<div class="box" data-position="5">
 			<img class="tile-image">
 		</div>
-		<div class="box" position="6">
+		<div class="box" data-position="6">
 			<img class="tile-image">
 		</div>
-		<div class="box" position="7">
+		<div class="box" data-position="7">
 			<img class="tile-image">
 		</div>
-		<div class="box" position="8">
+		<div class="box" data-position="8">
 			<img class="tile-image">
 		</div>
 		<div class="modal" id="choosePieceModal">

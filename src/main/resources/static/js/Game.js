@@ -7,7 +7,7 @@ var player1, player2, board, current;
 function initModalButtons() {
     document.getElementById('selectX').onclick = function() {
         player1 = new Player(1, 'X', 'images/CoolCat.png');
-		player2 = new Player(2, 'O', 'images/OhMyDog.png');
+		player2 = new ComputerPlayer(2, 'O', 'images/OhMyDog.png', 'random');
 		current = player1;
 		board = new Board();
         document.getElementById('choosePieceModal').style.display = 'none';
@@ -15,7 +15,7 @@ function initModalButtons() {
     }
     document.getElementById('selectO').onclick = function() {
         player1 = new Player(1, 'O', 'images/OhMyDog.png');
-		player2 = new Player(2, 'X', 'images/CoolCat.png');
+		player2 = new ComputerPlayer(2, 'X', 'images/CoolCat.png', 'random');
 		current = player2;
         board = new Board();
         document.getElementById('choosePieceModal').style.display = 'none';
@@ -26,8 +26,13 @@ function initModalButtons() {
 		for (var i = 0; i < boxes.length; i++) {
 			boxes[i].getElementsByClassName('tile-image')[0].src = '';
 		}
-		current = (player1.getTile() === 'X') ? player1 : player2;
-		board = new Board();
+		current = (player1.tile === 'X') ? player1 : player2;
+		board.board = [[0, 1, 2], 
+					[3, 4, 5], 
+					[6, 7, 8]];
+		board.dim = 3;
+		board.moveCount = 0;
+		board.validMoves = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 		document.getElementById('gameOverModal').style.display = 'none';
 		start();
 	}
@@ -45,27 +50,45 @@ function initModalButtons() {
  * Click event listener for tiles.
  */
 function tileClick() {
-	var position = parseInt(this.getAttribute('position'));
+	var position = parseInt(this.dataset.position);
 	if (board.isValidMove(position)) {
 		board.placeTile(current, position);
-		this.getElementsByClassName('tile-image')[0].src = current.getImg();
+		this.getElementsByClassName('tile-image')[0].src = current.img;
 		if (board.isWinningState(current, position)) {
 			end(current);
+		} else if (board.isTie()) {
+			end(current, true);
 		} else {
-			if (board.isTie()) {
-				end(current, true);
-			} else {
-				switchCurrentPlayer();
+			switchCurrentPlayer();
+			if (current.constructor.name === 'ComputerPlayer') {
+				computerMove();
 			}
 		}
 	}
 } 
 
 /**
+ * Handle computer player's turn.
+ */
+function computerMove() {
+	var cpuPosition = current.selectTile(board);
+	board.placeTile(current, cpuPosition);
+	var box = document.querySelector(`.box[data-position="${cpuPosition}"]`);
+	box.getElementsByClassName('tile-image')[0].src = current.img;
+	if (board.isWinningState(current, cpuPosition)) {
+		end(current);
+	} else if (board.isTie()) {
+		end(current, true);
+	} else {
+		switchCurrentPlayer();
+	}
+}
+
+/**
  * Change the current player.
  */
 function switchCurrentPlayer() {
-	current = (current.getId() === 1) ? player2 : player1;
+	current = (current.id === 1) ? player2 : player1;
 }
 
 /**
@@ -77,6 +100,9 @@ function start() {
 	Array.from(tiles).forEach(function(tile) {
 		tile.addEventListener('click', tileClick);
 	});
+	if (current.constructor.name === 'ComputerPlayer') {
+		computerMove();
+	}
 }
 
 /**
@@ -89,7 +115,7 @@ function end(player, isTie) {
 	Array.from(tiles).forEach(function(tile) {
 		tile.removeEventListener('click', tileClick);
 	});
-	var gameState = isTie ? 'Tie game.' : 'Player ' + player.getId() + ' wins!';
+	var gameState = isTie ? 'Tie game.' : 'Player ' + player.id + ' wins!';
 	document.getElementById('winnerText').innerHTML = gameState;
 	document.getElementById('gameOverModal').style.display = 'block';
 }

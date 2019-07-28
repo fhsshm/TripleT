@@ -1,79 +1,111 @@
 /**
  * Board class.
  */
-function Board() {
-    this.board = [[0, 1, 2], 
-                  [3, 4, 5], 
-                  [6, 7, 8]];
-    this.dim = 3;
-    this.moveCount = 0;
-}
-
-Board.prototype = {
-    constructor: Board,
-    /**
-     * Returns the current board state.
-     * @returns {number[][]} Array of number arrays representing a board.
-     */
-    getBoard: function() {
-        return this.board;
-    },
-    /**
-     * Returns the Board's X and Y dimensions.
-     * @returns {number} Dimension of the Board.
-     */
-    getDim: function() {
-        return this.dim;
-    },
+class Board {
+	constructor() {
+		this._board = [[0, 1, 2], 
+					[3, 4, 5], 
+					[6, 7, 8]];
+		this._dim = 3;
+		this._moveCount = 0;
+		this._validMoves = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+	}
+	/**
+	 * @returns {number[][]}
+	 */
+    get board() {
+        return this._board;
+	}
+	/**
+	 * @param {number[][]} newBoard
+	 */
+	set board(newBoard) {
+		this._board = newBoard;
+	}
+	/**
+	 * @returns {number}
+	 */
+    get dim() {
+        return this._dim;
+	}
+	/**
+	 * @param {number} dimensions
+	 */
+	set dim(dimensions) {
+		this._dim = dimensions;
+	}
+	/**
+	 * @returns {number}
+	 */
+	get moveCount() {
+		return this._moveCount;
+	}
+	/**
+	 * @param {number} count
+	 */
+	set moveCount(count) {
+		this._moveCount = count;
+	}
+	/**
+	 * @returns {number[]}
+	 */
+	get validMoves() {
+		return this._validMoves;
+	}
+	/**
+	 * @param {number[]} moves
+	 */
+	set validMoves(moves) {
+		this._validMoves = moves;
+	}
     /**
      * Return the X coordinate of given position.
      * @param {number} position A number representing a tile's position on the board.
      * @returns {number} The X coordinate on the board.
      */
-    getCoordX: function(position) {
-        return Math.floor(position / this.getDim());
-    },
+    getCoordX(position) {
+        return Math.floor(position / this.dim);
+    }
     /**
      * Return the Y coordinate of given position.
      * @param {number} position A number representing a tile's position on the board.
      * @returns {number} The Y coordinate on the board.
      */
-    getCoordY: function(position) {
-        return position % this.getDim();
-    },
+    getCoordY(position) {
+        return position % this.dim;
+    }
     /**
      * Check if requested position is empty of tiles.
      * @param {number} position A number representing a tile's position on the board.
      * @returns {boolean} true iff there is no tile at given position.
      */
-    isValidMove: function(position) {
-        var x = this.getCoordX(position);
-        var y = this.getCoordY(position);
-        return this.getBoard()[x][y] === position ? true : false;
-    },
+    isValidMove(position) {
+        return this.validMoves.indexOf(position) > -1;
+    }
     /**
      * Place a player's tile on the board in the given position.
      * @param {Player} player The current Player.
      * @param {number} position A number representing a tile's position on the board.
      */
-    placeTile: function(player, position) {
+    placeTile(player, position) {
         var x = this.getCoordX(position);
         var y = this.getCoordY(position);
-        this.board[x][y] = player.getTile();
-        this.moveCount++;
-    },
+        this.board[x][y] = player.tile;
+		this.moveCount++;
+		this.validMoves = this.validMoves.filter(e => e !== position);
+    }
     /**
      * Check if the recently placed tile created a winning game state.
      * @param {Player} player The current Player.
      * @param {number} position A number representing a tile's position on the board.
      * @returns {boolean} true iff there exists a winning game state.
      */
-    isWinningState: function(player, position) {
+    isWinningState(player, position) {
         var x = this.getCoordX(position);
         var y = this.getCoordY(position);
-        var tile = player.getTile();
-        var board = this.getBoard();
-        var dim = this.getDim();
+        var tile = player.tile;
+        var board = this.board;
+        var dim = this.dim;
 
         // check for column win state
         for(var row = 0; row < dim; row++) {
@@ -116,12 +148,12 @@ Board.prototype = {
             }
         }
         return false;
-    },
+    }
     /**
      * Check if the game is in a tie state.
      * @returns {boolean} true iff board is full and neither player has won.
      */
-    isTie: function() {
-        return this.moveCount === Math.pow(this.getDim(), 2) ? true : false;
+    isTie() {
+        return this.moveCount === Math.pow(this.dim, 2) ? true : false;
     }
 }
